@@ -17,6 +17,7 @@ export class AddComponent implements OnInit {
   onSubmit() {
     this.receptService.addRecept(this.model);
   }
+  
   getAll(){
     this.recepten = this.receptService.getAll();
   }

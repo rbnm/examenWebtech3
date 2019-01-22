@@ -30,9 +30,12 @@
  
 
 </form>
+
+
 <form (ngSubmit)='getAll()'>
    <button type='submit' class='btn btn-success'>ReceptenLijst</button>
 </form>
+
 <h1>Alle Recepten</h1>
 <ul>
  <li *ngFor='let recept of recepten'>
