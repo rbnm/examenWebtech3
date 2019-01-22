@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {Recept} from '../app/recept'
 
 @Injectable({
   providedIn: 'root'
@@ -7,10 +8,10 @@ export class ReceptenService {
 
   constructor() { }
 
-  addRecept(naam: string, aantalcalorien: number, ingredienten: string, benodigdeTijd: number): void {
-
-    if (localStorage.getItem(naam) == null) {
-      localStorage.setItem(naam, recept);
+  addRecept(recept: Recept): void {
+    
+    if (localStorage.getItem(recept.naam) == null) {
+      localStorage.setItem(recept.naam, recept);
     }
 }
 }
