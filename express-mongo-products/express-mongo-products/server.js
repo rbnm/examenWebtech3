@@ -5,9 +5,9 @@ const MongoClient = require('mongodb').MongoClient
 
 var db;
 
-MongoClient.connect('mongodb://localhost:27017/products', (err, database) => {
+MongoClient.connect('mongodb://localhost:27017/examen', (err, database) => {
   if (err) return console.log(err)
-  db = database.db('products')
+  db = database.db('examen')
   app.listen(process.env.PORT || 3000, () => {
     console.log('Listening on port 3000')
   })
@@ -20,16 +20,9 @@ app.use(express.static('public'))
 
 // Redirect to list
 app.get('/', (req, res) => { 
-  res.redirect('/list')
+  res.redirect('/add')
 })
 
-// List all products
-app.get('/list', (req, res) => {
-  db.collection('products').find().toArray((err, result) => {
-    if (err) return console.log(err)
-    res.render('list.ejs', { products: result })
-  })
-})
 
 // Show the add product form
 app.get('/add', (req, res) => {
@@ -38,9 +31,9 @@ app.get('/add', (req, res) => {
 
 // Add a product to the db
 app.post('/add', (req, res) => {
-  db.collection('products').insertOne(req.body, (err, result) => {
+  db.collection('inhaal').insertOne(req.body, (err, result) => {
     if (err) return console.log(err)
-     res.redirect('/list')
+     res.redirect('/add')
   })
 })
 /*
