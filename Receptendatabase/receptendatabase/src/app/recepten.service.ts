@@ -12,5 +12,15 @@ export class ReceptenService {
     if (localStorage.getItem(recept.naam) == null) {
       localStorage.setItem(recept.naam, JSON.stringify(recept));
     }
-}
+  }
+  getAll(): Recept[] {
+    let recepten :Recept[];
+    for (let i = 0; i < localStorage.length; i++){
+      let key = localStorage.key(i);
+      let value = localStorage.getItem(key);
+      let recept = JSON.parse(JSON.stringify(value));
+      recepten.push(recept);
+    }
+    return recepten;
+  }
 }

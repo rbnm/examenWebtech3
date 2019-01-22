@@ -8,7 +8,7 @@ import {ReceptenService} from '../recepten.service'
 })
 export class AddComponent implements OnInit {
   private model = new Recept('', 0, '',0);
-
+  recepten :Recept[];
   constructor(private receptService: ReceptenService) { }
 
   ngOnInit() {
@@ -16,5 +16,8 @@ export class AddComponent implements OnInit {
   }
   onSubmit() {
     this.receptService.addRecept(this.model);
-}
+  }
+  getAll(){
+    this.recepten = this.receptService.getAll();
+  }
 }

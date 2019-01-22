@@ -27,7 +27,18 @@
   <button type='submit' class='btn btn-success' [disabled]='productForm.invalid'>Add</button>
 
   <br/><br/>
-
-  {{ productForm.value | json }}
+ 
 
 </form>
+<form (ngSubmit)='getAll()'>
+   <button type='submit' class='btn btn-success'>ReceptenLijst</button>
+</form>
+<h1>Alle Recepten</h1>
+<ul>
+ <li *ngFor='let recept of recepten'>
+   Naam : {{ recept.naam }}<br />
+   Ingrediënten : {{ recept.ingredienten }}<br />
+   Caloriën : {{ recept.aantalcalorien }}
+   Duurtijd : {{ recept.benodigdeTijd }} 
+</li>
+</ul>
