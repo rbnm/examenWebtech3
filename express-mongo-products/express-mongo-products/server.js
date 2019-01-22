@@ -31,41 +31,62 @@ app.get('/add', (req, res) => {
 
 // Add a product to the db
 app.post('/add', (req, res) => {
-  db.collection('inhaal').insertOne(req.body, (err, result) => {
-    if (err) return console.log(err)
-     res.redirect('/add')
-  })
-})
-/*
-app.post('add.ejs', (req,res) => {
-  db.collection('products').insertOne(req.body, (err, result) => {
-    if(err) console.log(err)
-    res.render('list.ejs')
-  })
-})
-*/
+  let query = {naam: req.body.naam, examen: req.body.examen, reden: req.body.reden};
+  db.collection('inhaal').find(query).toArray(function(err, result) {
+    if (err) console.log(err)
+    if (result == ''){
+      datum = getDatum();
+      db.collection('inhaal').insertOne({naam: req.body.naam, examen: req.body.examen, reden: req.body.reden, datum: datum}, (err, result) => {
+        if (err) return console.log(err)
+         res.redirect('/succes')
+      })
+    }
+    else{
+      res.render('exists.ejs');
+    }
+  });
 
+})
+
+// Show the exist page
+app.get('/exists', (req, res) => {
+  res.render('exists.ejs')
+})
+app.get('/succes', (req, res) => {
+  res.render('succes.ejs')
+})
 // Show the search form
 app.get('/search', (req, res) => {
-   res.render('search.ejs', { product: '' })
+   res.render('search.ejs', { examens: '' })
 })
 
 // Find a product
 app.post('/search', (req, res) => {
- var query = { name: req.body.name }
- db.collection('products').find(query).toArray(function(err, result) {
+ let query = { naam: req.body.naam }
+ let mysort = { reden: 1 };
+ db.collection('inhaal').find(query).sort(mysort).toArray(function(err, result) {
    if (err) console.log(err)
    if (result == '')
        res.render('search_not_found.ejs', {})
    else
-       res.render('search_result.ejs', { product: result[0] })
+       res.render('search_result.ejs', { examens: result })
  });
 })
 
-// Delete a product
-app.post('/delete', (req, res) => {
-  db.collection('products').findOneAndDelete({ name: req.body.name }, (err, result) => {
-    if (err) return res.send(500, err)
-    res.redirect('/list')
-  })
-})
+
+//datum in mooi formaat
+getDatum = () => {
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1; //January is 0!
+  
+  var yyyy = today.getFullYear();
+  if (dd < 10) {
+    dd = '0' + dd;
+  } 
+  if (mm < 10) {
+    mm = '0' + mm;
+  } 
+  var datum = dd + '/' + mm + '/' + yyyy;
+  return datum
+}
